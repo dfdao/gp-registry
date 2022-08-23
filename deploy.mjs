@@ -4,8 +4,8 @@ function escapeShell(cmd) {
 }
 
 function parseForgeDeploy(output) {
-  const lines = output.split("\n");
-  const lineWithAddress = lines.find((line) =>
+  const parsed = output.split("\n");
+  const lineWithAddress = parsed.find((line) =>
     line.startsWith("Contract Address:")
   );
   const address =
@@ -14,13 +14,13 @@ function parseForgeDeploy(output) {
 }
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const RPC_URL = process.env.RPC_URL;
 
 let deployments = {};
 
 const { stdout: deploymentOutput } =
-  await $`forge script script/Registry.s.sol:DeployRegistry --rpc-url http://localhost:8545  --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --broadcast`;
+  await $`forge script script/Registry.s.sol:DeployRegistry --rpc-url ${RPC_URL} --private-key ${PRIVATE_KEY} --legacy --broadcast`;
 const registryAddress = parseForgeDeploy(deploymentOutput);
-
 const DEPLOYMENT = {
   registry: registryAddress,
 };
