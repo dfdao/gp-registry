@@ -3,3 +3,4 @@ out/
 node_modules/
 broadcast/
 .env
+yarn-error.log
